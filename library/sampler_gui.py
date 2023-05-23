@@ -15,10 +15,10 @@ document_symbol = '\U0001F4C4'   # 📄
 
 
 def sample_gradio_config():
-    with gr.Accordion('Sample images config', open=False):
+    with gr.Accordion('Sample images config（采样图片设置）', open=False):
         with gr.Row():
             sample_every_n_steps = gr.Number(
-                label='Sample every n steps',
+                label='每 n 步保存采用图片', # Sample every n steps
                 value=0,
                 precision=0,
                 interactive=True,

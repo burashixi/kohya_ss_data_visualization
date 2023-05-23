@@ -848,7 +848,9 @@ def lora_tab(
     dummy_headless = gr.Label(value=headless, visible=False)
 
     gr.Markdown(
-        'Train a custom model using kohya train network LoRA python code...'
+        # 'Train a custom model using kohya train network LoRA python code...'
+        # chinese version is
+        "使用 kohya LoRA python 代码训练自定义模型..."
     )
     (
         button_open_config,
@@ -872,11 +874,11 @@ def lora_tab(
         headless=headless,
     )
 
-    with gr.Tab('Folders'):
+    with gr.Tab('Folders（目录）'):
         with gr.Row():
             train_data_dir = gr.Textbox(
-                label='Image folder',
-                placeholder='Folder where the training folders containing the images are located',
+                label='Image folder（训练图片目录）',
+                placeholder='包含图像的训练文件夹所在的文件夹', # Folder where the training folders containing the images are located
             )
             train_data_dir_folder = gr.Button(
                 '📂', elem_id='open_folder_small', visible=(not headless)
@@ -887,8 +889,8 @@ def lora_tab(
                 show_progress=False,
             )
             reg_data_dir = gr.Textbox(
-                label='Regularisation folder',
-                placeholder='(Optional) Folder where where the regularization folders containing the images are located',
+                label='Regularisation folder（正则化目录）',
+                placeholder= '(选填）包含图像的正则化文件夹所在的文件夹' # (Optional) Folder where where the regularization folders containing the images are located',
             )
             reg_data_dir_folder = gr.Button(
                 '📂', elem_id='open_folder_small', visible=(not headless)
@@ -900,8 +902,8 @@ def lora_tab(
             )
         with gr.Row():
             output_dir = gr.Textbox(
-                label='Output folder',
-                placeholder='Folder to output trained model',
+                label='Output folder(模型输出目录)',
+                placeholder='输出训练好的模型的文件夹', # Folder to output trained model
             )
             output_dir_folder = gr.Button(
                 '📂', elem_id='open_folder_small', visible=(not headless)
@@ -912,8 +914,8 @@ def lora_tab(
                 show_progress=False,
             )
             logging_dir = gr.Textbox(
-                label='Logging folder',
-                placeholder='Optional: enable logging and output TensorBoard log to this folder',
+                label='Logging folder（日志目录）',
+                placeholder= '选填：启用日志并将TensorBoard日志输出到此文件夹中' # Optional: enable logging and output TensorBoard log to this folder',
             )
             logging_dir_folder = gr.Button(
                 '📂', elem_id='open_folder_small', visible=(not headless)
@@ -925,14 +927,14 @@ def lora_tab(
             )
         with gr.Row():
             output_name = gr.Textbox(
-                label='Model output name',
+                label='Model output name（模型保存名字）',
                 placeholder='(Name of the model to output)',
                 value='last',
                 interactive=True,
             )
             training_comment = gr.Textbox(
-                label='Training comment',
-                placeholder='(Optional) Add training comment to be included in metadata',
+                label='Training comment（训练注释）',
+                placeholder= '(Optional) Add training comment to be included in metadata',
                 interactive=True,
             )
         train_data_dir.change(
@@ -955,10 +957,10 @@ def lora_tab(
             inputs=[logging_dir],
             outputs=[logging_dir],
         )
-    with gr.Tab('Training parameters'):
+    with gr.Tab('Training parameters（训练参数）'):
         with gr.Row():
             LoRA_type = gr.Dropdown(
-                label='LoRA type',
+                label='LoRA type（LoRA类型）',
                 choices=[
                     'Kohya DyLoRA',
                     'Kohya LoCon',
@@ -972,9 +974,9 @@ def lora_tab(
             with gr.Box():
                 with gr.Row():
                     lora_network_weights = gr.Textbox(
-                        label='LoRA network weights',
-                        placeholder='(Optional)',
-                        info='Path to an existing LoRA network weights to resume training from'
+                        label='LoRA network weights（LoRA网络权重）',
+                        placeholder='(Optional（选填）)',
+                        info='从现有 LoRA 网络权重恢复训练的路径' # Path to an existing LoRA network weights to resume training from'
                     )
                     lora_network_weights_file = gr.Button(
                         document_symbol,
@@ -988,9 +990,9 @@ def lora_tab(
                         show_progress=False,
                     )
                     dim_from_weights = gr.Checkbox(
-                        label='DIM from weights',
+                        label='DIM from weights（从权重中获取DIM）',
                         value=False,
-                        info='Automatically determine the dim(rank) from the weight file.',
+                        info='自动从权重文件中确定 dim（rank）', # Automatically determine the dim(rank) from the weight file.
                     )
         (
             learning_rate,
@@ -1016,19 +1018,19 @@ def lora_tab(
 
         with gr.Row():
             text_encoder_lr = gr.Number(
-                label='Text Encoder learning rate',
+                label='Text Encoder learning rate（文本编码器学习率）',
                 value='5e-5',
-                info='Optional',
+                info='Optional（选填）',
             )
             unet_lr = gr.Number(
-                label='Unet learning rate',
+                label='Unet learning rate（Unet学习率）',
                 value='0.0001',
-                info='Optional',
+                info='Optional（选填）',
             )
             network_dim = gr.Slider(
                 minimum=1,
                 maximum=1024,
-                label='Network Rank (Dimension)',
+                label='Network Rank (Dimension)(模型大小)',
                 value=8,
                 step=1,
                 interactive=True,
@@ -1036,11 +1038,11 @@ def lora_tab(
             network_alpha = gr.Slider(
                 minimum=0.1,
                 maximum=1024,
-                label='Network Alpha',
+                label='Network Alpha（模型 alpha）',
                 value=1,
                 step=0.1,
                 interactive=True,
-                info='alpha for LoRA weight scaling',
+                info='alpha for LoRA weight scaling（LoRA权重缩放的alpha）',
             )
         with gr.Row(visible=False) as LoCon_row:
 
@@ -1050,14 +1052,14 @@ def lora_tab(
                 maximum=512,
                 value=1,
                 step=1,
-                label='Convolution Rank (Dimension)',
+                label='Convolution Rank (Dimension)（卷积大小）',
             )
             conv_alpha = gr.Slider(
                 minimum=0.1,
                 maximum=512,
                 value=1,
                 step=0.1,
-                label='Convolution Alpha',
+                label='Convolution Alpha（卷积 alpha）',
             )
         with gr.Row(visible=False) as kohya_dylora:
             unit = gr.Slider(
@@ -1072,7 +1074,7 @@ def lora_tab(
         # Show of hide LoCon conv settings depending on LoRA type selection
         def update_LoRA_settings(LoRA_type):
             # Print a message when LoRA type is changed
-            print('LoRA type changed...')
+            print('LoRA type changed...（LoRA类型已更改）')
 
             # Determine if LoCon_row should be visible based on LoRA_type
             LoCon_row = LoRA_type in {
@@ -1113,97 +1115,98 @@ def lora_tab(
 
         with gr.Row():
             max_resolution = gr.Textbox(
-                label='Max resolution',
+                label='Max resolution（训练图片的最大尺寸）',
                 value='512,512',
                 placeholder='512,512',
-                info='The maximum resolution of dataset images. W,H',
+                info='数据集图像的最大分辨率。宽，高', # The maximum resolution of dataset images. W,H
             )
             stop_text_encoder_training = gr.Slider(
                 minimum=0,
                 maximum=100,
                 value=0,
                 step=1,
-                label='Stop text encoder training',
-                info='After what % of steps should the text encoder stop being trained. 0 = train for all steps.',
+                label='Stop text encoder training（停止文本编码器训练）',
+                info='在训练多少步后，文本编码器应停止训练。 0 =训练所有步骤。', # After what % of steps should the text encoder stop being trained. 0 = train for all steps.(
             )
             enable_bucket = gr.Checkbox(
-                label='Enable buckets',
+                label='Enable buckets（启用桶）',
                 value=True,
-                info='Allow non similar resolution dataset images to be trained on.',
+                info='允许训练非相似大小的数据集图像' # Allow non similar resolution dataset images to be trained on.',
             )
 
-        with gr.Accordion('Advanced Configuration', open=False):
+        with gr.Accordion('Advanced Configuration（高级设置）', open=False):
             with gr.Row(visible=True) as kohya_advanced_lora:
-                with gr.Tab(label='Weights'):
+                with gr.Tab(label='Weights（权重）'):
                     with gr.Row(visible=True):
                         down_lr_weight = gr.Textbox(
-                            label='Down LR weights',
-                            placeholder='(Optional) eg: 0,0,0,0,0,0,1,1,1,1,1,1',
-                            info='Specify the learning rate weight of the down blocks of U-Net.',
+                            label='Down LR weights（下层学习率权重）',
+                            placeholder='(选填) eg: 0,0,0,0,0,0,1,1,1,1,1,1',
+                            info='指定 U-Net 下层的学习率权重', # Specify the learning rate weight of the down blocks of U-Net.
                         )
                         mid_lr_weight = gr.Textbox(
-                            label='Mid LR weights',
-                            placeholder='(Optional) eg: 0.5',
-                            info='Specify the learning rate weight of the mid block of U-Net.',
+                            label='Mid LR weights（中层学习率权重）',
+                            placeholder='(选填) eg: 0.5',
+                            info='指定 U-Net 中间层的学习率权重' # Specify the learning rate weight of the mid block of U-Net.',
                         )
                         up_lr_weight = gr.Textbox(
-                            label='Up LR weights',
-                            placeholder='(Optional) eg: 0,0,0,0,0,0,1,1,1,1,1,1',
-                            info='Specify the learning rate weight of the up blocks of U-Net. The same as down_lr_weight.',
+                            label='Up LR weights（上层学习率权重）',
+                            placeholder='(选填) eg: 0,0,0,0,0,0,1,1,1,1,1,1',
+                            info='指定 U-Net 中间层的学习率权重，与下层学习率相同' # Specify the learning rate weight of the up blocks of U-Net. The same as down_lr_weight.',
                         )
                         block_lr_zero_threshold = gr.Textbox(
-                            label='Blocks LR zero threshold',
-                            placeholder='(Optional) eg: 0.1',
-                            info='If the weight is not more than this value, the LoRA module is not created. The default is 0.',
+                            label='Blocks LR zero threshold(层学习率为零阈值)',
+                            placeholder='(选填) eg: 0.1',
+                            info='如果权重不超过此值，则不会创建LoRA模块。 默认值为0' # If the weight is not more than this value, the LoRA module is not created. The default is 0.',
                         )
                 with gr.Tab(label='Blocks'):
                     with gr.Row(visible=True):
                         block_dims = gr.Textbox(
-                            label='Block dims',
-                            placeholder='(Optional) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
+                            label='Block dims(区块维度)',
+                            placeholder='(选填) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
                             info='Specify the dim (rank) of each block. Specify 25 numbers.',
                         )
                         block_alphas = gr.Textbox(
-                            label='Block alphas',
-                            placeholder='(Optional) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
+                            label='Block alphas（区块 alpha）',
+                            placeholder='(选填) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
                             info='Specify the alpha of each block. Specify 25 numbers as with block_dims. If omitted, the value of network_alpha is used.',
                         )
                 with gr.Tab(label='Conv'):
                     with gr.Row(visible=True):
                         conv_dims = gr.Textbox(
-                            label='Conv dims',
-                            placeholder='(Optional) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
+                            label='Conv dims（卷积层维度）',
+                            placeholder='(选填) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
                             info='Expand LoRA to Conv2d 3x3 and specify the dim (rank) of each block. Specify 25 numbers.',
                         )
                         conv_alphas = gr.Textbox(
-                            label='Conv alphas',
-                            placeholder='(Optional) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
+                            label='Conv alphas（卷积层 alpha）',
+                            placeholder='(选填) eg: 2,2,2,2,4,4,4,4,6,6,6,6,8,6,6,6,6,4,4,4,4,2,2,2,2',
                             info='Specify the alpha of each block when expanding LoRA to Conv2d 3x3. Specify 25 numbers. If omitted, the value of conv_alpha is used.',
                         )
             with gr.Row():
                 no_token_padding = gr.Checkbox(
-                    label='No token padding', value=False
+                    label='No token padding（不对 token 进行填充）', value=False
                 )
                 gradient_accumulation_steps = gr.Number(
-                    label='Gradient accumulate steps', value='1'
+                    label='Gradient accumulate steps（梯度累加步数）', value='1'
                 )
                 weighted_captions = gr.Checkbox(
-                    label='Weighted captions',
+                    label='Weighted captions（带有权重的标注）',
                     value=False,
-                    info='Enable weighted captions in the standard style (token:1.3). No commas inside parens, or shuffle/dropout may break the decoder.',
+                    info='在标准样式中启用带权标注（token:1.3）。 括号内没有逗号，否则混洗/丢弃可能会破坏解码器',
+                        # Enable weighted captions in the standard style (token:1.3). No commas inside parens, or shuffle/dropout may break the decoder.
                 )
             with gr.Row():
                 prior_loss_weight = gr.Number(
-                    label='Prior loss weight', value=1.0
+                    label='Prior loss weight（先验损失权重）', value=1.0
                 )
                 lr_scheduler_num_cycles = gr.Textbox(
-                    label='LR number of cycles',
-                    placeholder='(Optional) For Cosine with restart and polynomial only',
+                    label='LR number of cycles（学习率循环次数）',
+                    placeholder='(选填) 只对 Cosine with restart 和 polynomial 生效',
                 )
 
                 lr_scheduler_power = gr.Textbox(
-                    label='LR power',
-                    placeholder='(Optional) For Cosine with restart and polynomial only',
+                    label='LR power（学习率能量',
+                    placeholder='(选填) 只对 Cosine with restart 和 polynomial 生效',
                 )
             (
                 # use_8bit_adam,
